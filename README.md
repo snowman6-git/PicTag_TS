@@ -6,12 +6,12 @@ GET 파라미터: /image?tag={image_name}
 
 기반: bun + hono
 
-## 셋업
+### 셋업
 
 ```
 bun install
 ```
-## 시작
+### 시작
 
 ```
 bun run dev
