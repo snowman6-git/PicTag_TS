@@ -11,7 +11,6 @@ app.get('/', (c) => {
 app.get('/image', async (c) => {
   const image = c.req.query('tag')?.toString() || "../"
   const jiral_no = !/[\.]{2,}|[\/\\]/.test(image) //.이 두개거나, /or\가 파라미터에 있다면 true /양옆에 안하면 씹힘
-  console.log(jiral_no)
   if(jiral_no){
     const image_root = path.join(__dirname, '../images', image);
     return new Response(file(image_root));
