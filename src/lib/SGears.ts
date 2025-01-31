@@ -1,12 +1,12 @@
 import puppeteer from 'puppeteer';
 import { blob } from 'stream/consumers';
-const fs = require('fs');
+import path = require("path")
 
 export function print(text: any){
   console.log(text)
 }
 
-
+const COUNTER_BADGE = path.join(__dirname, '../../images/counter_badge.png')
 
 async function html_to_img(htmlContent: string, selector: string){
   // Puppeteer 브라우저 인스턴스 생성
@@ -17,14 +17,13 @@ async function html_to_img(htmlContent: string, selector: string){
   const element = await page.$(selector);
     if (element){
       const screenshotBuffer = await element.screenshot({ 
-        encoding: 'binary',
-        path: "./aa.png",
+        // encoding: 'binary', 투명도 유실됌
+        path: path.join(__dirname, '../../images/counter_badge.png'),
         omitBackground: true 
       });
-      
-      const blob_img = new Blob([screenshotBuffer], { type: 'image/png' });
+      // const blob_img = new Blob([screenshotBuffer], { type: 'image/png' });
       await browser.close();
-      return blob_img
+      return true
     }
 }
 
@@ -43,15 +42,15 @@ export class Badge {
     let third = git_readme.split("http://pictag.aa2.uk").length - 1 || 0
     
     
-    var html = fs.readFileSync('badge.html', "utf8");
+    let html = await Bun.file('badge.html', "utf8").text(); //읽어주고
     let values = `
       <p>shields_io: ${shields_io}</p>
       <p>third: ${third}</p>
-    `
-    let dynamic_adds = html.replace("dynamic_adds", values)
+    `//동적추가 잡기
+    let dynamic_adds = html.replace("dynamic_adds", values) //동적추가된걸로 수정
 
-    let a = await html_to_img(dynamic_adds, "#badge_counter")
-    const blob_img = new Blob([await Bun.file("aa.png").arrayBuffer()], { type: 'image/png' });
+    await html_to_img(dynamic_adds, "#badge_counter") //수정된 html기반으로 html생성후 이미지 저장
+    const blob_img = new Blob([await Bun.file(COUNTER_BADGE).arrayBuffer()], { type: 'image/png' }); //그걸 blob화
     return blob_img
   }}
 
