@@ -4,7 +4,8 @@
     "dev": "bun run --hot src/index.ts"
   },
   "dependencies": {
-    "hono": "^4.6.18"
+    "hono": "^4.6.18",
+    "puppeteer": "^24.1.1"
   },
   "devDependencies": {
     "@types/bun": "latest"
