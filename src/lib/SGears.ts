@@ -10,7 +10,10 @@ const COUNTER_BADGE = path.join(__dirname, '../../images/counter_badge.png')
 
 async function html_to_img(htmlContent: string, selector: string){
   // Puppeteer 브라우저 인스턴스 생성
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'], // 샌드박스 비활성화
+    headless: true, // 헤드리스 모드
+  });
   const page = await browser.newPage();
   // HTML 콘텐츠를 페이지에 설정
   await page.setContent(htmlContent);
