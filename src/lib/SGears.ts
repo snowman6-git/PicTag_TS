@@ -7,6 +7,7 @@ export function print(text: any){
 }
 
 const COUNTER_BADGE = path.join(__dirname, '../../images/counter_badge.png')
+const COUNTER_BADGE_HTML = path.join(__dirname, '../../badge.html')
 
 async function html_to_img(htmlContent: string, selector: string){
   // Puppeteer 브라우저 인스턴스 생성
@@ -45,7 +46,7 @@ export class Badge {
     let third = git_readme.split("http://pictag.aa2.uk").length - 1 || 0
     
     
-    let html = await Bun.file('badge.html', "utf8").text(); //읽어주고
+    let html = await Bun.file(COUNTER_BADGE_HTML, "utf8").text(); //읽어주고
     let values = `
       <p>shields_io: ${shields_io}</p>
       <p>third: ${third}</p>
