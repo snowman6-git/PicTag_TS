@@ -40,13 +40,21 @@ export class Badge {
     .catch((error) => {
       console.error("Fetch error:", error);
     });
-
-    let values = `<legend>${user}'s badge counter</legend>`
-
+    //으악! 이건 꼭 시간나면 고쳐라!!!
+    let values = `
+      <legend style="font-size: 0.85rem">Terminal</legend>
+      <div style="font-size: 1.25rem; margin-bottom: 0.5rem">pictag@git:~# ls -la ${user}</div>
+    `
+    let temp = "";
+    let count_result = 0;
     badge_list.forEach(badge_from => {
       let count_badge_from = git_readme.split(badge_from).length - 1 || 0
-      values += `<div>${badge_from}: ${count_badge_from}</div>`
+      count_result += count_badge_from //누적합산 뭐시기 쓰기
+      temp += `<div class="log" style="font-size: 0.85rem">drwxr-xr-x  root ${badge_from} 8192 Feb 1 03:16 badge.svg </div>`
     });
+    values += `<div class="log">total ${count_result}</div>`
+    values += temp
+
 
 
     
@@ -57,6 +65,7 @@ export class Badge {
     let html = await Bun.file(COUNTER_BADGE_HTML, "utf8").text(); //읽어주고
 
     let dynamic_adds = html.replace("dynamic_adds", values) //동적추가된걸로 수정
+
 
     await html_to_img(dynamic_adds, "#badge_counter", user) //수정된 html기반으로 html생성후 이미지 저장
     const blob_img = new Blob([await Bun.file(path.join(__dirname, `../../images/${user}_counter_badge.png`)).arrayBuffer()], { type: 'image/png' }); //그걸 blob화
