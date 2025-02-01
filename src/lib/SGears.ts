@@ -55,12 +55,7 @@ export class Badge {
     values += `<div class="log">total ${count_result}</div>`
     values += temp
 
-
-
-    
-
     // let third = git_readme.split("http://pictag.aa2.uk").length - 1 || 0
-    
     
     let html = await Bun.file(COUNTER_BADGE_HTML, "utf8").text(); //읽어주고
 
@@ -68,7 +63,13 @@ export class Badge {
 
 
     await html_to_img(dynamic_adds, "#badge_counter", user) //수정된 html기반으로 html생성후 이미지 저장
-    const blob_img = new Blob([await Bun.file(path.join(__dirname, `../../images/${user}_counter_badge.png`)).arrayBuffer()], { type: 'image/png' }); //그걸 blob화
-    return blob_img
-  }}
+    const blob_img = new Blob([await Bun.file(path.join(__dirname, `../../images/${user}_counter_badge.png`)).arrayBuffer()], { type: 'image/png',  })
+    return new Response(blob_img, {
+      headers: {
+        'Cache-Control': 'no-cahce, no-store, must-revalidate', // 캐시를 사용하지 않도록 설정
+        'Expires': '0', // 즉시 만료
+      }
+    })
+  }
+}
 
