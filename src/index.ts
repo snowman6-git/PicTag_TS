@@ -28,9 +28,15 @@ app.get('/image', async (c) => {
 
 
 app.get('/badges', async(c) => {
-  const user = c.req.query('tag')?.toString() || "../"
-  const a = await badge.counter(user)
-  return c.text(a)
+  const user = c.req.query('tag')?.toString()
+  const from = c.req.query('from')?.toString().split(",")
+  
+  let jiral_no = !/(http|https|script|eval|src|link)|[<>]/.test(user, from)
+  if(jiral_no){
+    const a = await badge.counter(user, from)
+    return c.text(a)
+  }
+  return c.text("am really sry but if you nickname in [http, script, eval, src, link], you can using this service, maybe we will fix soon")
 })
 // https://github.com/snowman6-git/snowman6-git/blob/main/README.md?plain=1 로그인없어도 보임
 
