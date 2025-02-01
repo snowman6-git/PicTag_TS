@@ -34,7 +34,17 @@ app.get('/badges', async(c) => {
   let jiral_no = !/(http|https|script|eval|src|link)|[<>]/.test(user, from)
   if(jiral_no){
     const a = await badge.counter(user, from)
-    return c.text(a)
+    return c.body(a
+      , {
+      headers: {
+        'Content-Type': 'image/png',
+        'Content-Disposition': 'inline; filename="image.png"',
+        'Cache-Control': 'no-cahce, no-store, must-revalidate', // 캐시를 사용하지 않도록 설정
+        // 'content-encoding': 'gzip',
+        'Expires': '0', // 즉시 만료
+      }
+    }
+  )
   }
   return c.text("am really sry but if you nickname in [http, script, eval, src, link], you can using this service, maybe we will fix soon")
 })
