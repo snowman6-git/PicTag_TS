@@ -50,7 +50,7 @@ export class Badge {
     badge_list.forEach(badge_from => {
       let count_badge_from = git_readme.split(badge_from).length - 1 || 0
       count_result += count_badge_from //누적합산 뭐시기 쓰기
-      temp += `<div class="log" style="font-size: 0.85rem">drwxr-xr-x  root ${badge_from} 8192 Feb 1 03:16 badge.svg </div>`
+      temp += `<div class="log" style="font-size: 0.85rem">drwxr-xr-x ${count_badge_from} root ${badge_from} 8192 Feb 1 03:16 badge.svg </div>`
     });
     values += `<div class="log">total ${count_result}</div>`
     values += temp
